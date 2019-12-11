@@ -154,8 +154,9 @@ const cssColorKeywords = [
 
 class Canvas extends React.Component {
   componentDidMount() {
-    const { backgroundColor, backgroundLineColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
+    console.log('CANVAS COMPONENT DID MOUNT');
     console.log(this.props);
+    const { backgroundColor, backgroundLineColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
     ctx.fillRect(100, 100, 200, 200);
@@ -292,57 +293,85 @@ class Canvas extends React.Component {
   }
 
   render() {
+    console.log('CANVAS RENDER');
     return(
       <canvas ref="canvas" width={500} height={500} />
     )
   }
 }
 
-function App() {
-  return (
-    <div>
-      <h1>Sol Lewitt Cube Generator</h1>
-      <div className="form">
-        <select name="color-1">
-          {cssColorKeywords.map(color => (
-            <option value={color} key={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-        <select name="color-2">
-          {cssColorKeywords.map(color => (
-            <option value={color} key={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-        <select name="color-3">
-          {cssColorKeywords.map(color => (
-            <option value={color} key={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-        <select name="color-4">
-          {cssColorKeywords.map(color => (
-            <option value={color} key={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-      </div>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      backgroundColor: "aliceblue",
+      backgroundLineColor: "aliceblue",
+      cubeFaceLineColor: "aliceblue",
+      cubeTopLineColor: "aliceblue",
+      cubeSideLineColor: "aliceblue"
+    };
+  }
+
+  handleChange = (e) => {
+    console.log('HANDLE CHANGE');
+    console.log(e.target.name);
+    console.log(e.target.value);
+    this.setState({[e.target.name]: e.target.value});
+    console.log('STATE', this.state);
+  }
+  render() {
+    const {
+      backgroundColor,
+      backgroundLineColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor
+    } = this.state;
+    return (
       <div>
-        <Canvas
-          backgroundColor="blue"
-          backgroundLineColor="red"
-          cubeFaceLineColor="yellow"
-          cubeTopLineColor="green"
-          cubeSideLineColor="orange"
-         />
+        <h1>Sol Lewitt Cube Generator</h1>
+        <div className="form">
+          <select name="backgroundColor" onChange={this.handleChange}>
+            {cssColorKeywords.map(color => (
+              <option value={color} key={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+          <select name="backgroundLineColor" onChange={this.handleChange}>
+            {cssColorKeywords.map(color => (
+              <option value={color} key={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+          <select name="cubeFaceLineColor" onChange={this.handleChange}>
+            {cssColorKeywords.map(color => (
+              <option value={color} key={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+          <select name="cubeTopLineColor" onChange={this.handleChange}>
+            {cssColorKeywords.map(color => (
+              <option value={color} key={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <Canvas
+            backgroundColor={backgroundColor}
+            backgroundLineColor={backgroundLineColor}
+            cubeFaceLineColor={cubeFaceLineColor}
+            cubeTopLineColor={cubeTopLineColor}
+            cubeSideLineColor={cubeSideLineColor}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
