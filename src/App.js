@@ -154,6 +154,8 @@ const cssColorKeywords = [
 
 class Canvas extends React.Component {
   componentDidMount() {
+    const { backgroundColor, backgroundLineColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
+    console.log(this.props);
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
     ctx.fillRect(100, 100, 200, 200);
@@ -226,11 +228,11 @@ class Canvas extends React.Component {
       }
     };
 
-    const drawCubeTopLines = dimension => {
+    const drawCubeTopLines = (dimension, color) => {
       const half = dimension / 2;
       const oneTenth = dimension / 10;
       const oneFourth = dimension / 4;
-      ctx.strokeStyle = "red";
+      ctx.strokeStyle = color;
       for (let i = 1; i < oneTenth; i++) {
         ctx.beginPath();
         ctx.moveTo(half + 10 * i, half);
@@ -285,7 +287,7 @@ class Canvas extends React.Component {
       drawFirstCube(dimension, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
     };
 
-    draw(200, "black", "yellow", "red", "blue");
+    draw(200, backgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
 
   }
 
@@ -331,7 +333,13 @@ function App() {
         </select>
       </div>
       <div>
-        <Canvas />
+        <Canvas
+          backgroundColor="blue"
+          backgroundLineColor="red"
+          cubeFaceLineColor="yellow"
+          cubeTopLineColor="green"
+          cubeSideLineColor="orange"
+         />
       </div>
     </div>
   );
