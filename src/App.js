@@ -327,7 +327,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      backgroundColor: "grey",
+      backgroundColor: "lightgrey",
       backgroundLineColor: "black",
       cubeBackgroundColor: "lightgrey",
       cubeFaceLineColor: "black",
@@ -364,6 +364,19 @@ class App extends React.Component {
                   backgroundColor: color,
                   color: color
                 };
+
+                if (color === "lightgrey") {
+                  return (
+                    <option
+                      value={color}
+                      key={color}
+                      style={optionStyle}
+                      selected
+                    >
+                      {color}
+                    </option>
+                  );
+                }
                 return (
                   <option value={color} key={color} style={optionStyle}>
                     {color}
@@ -379,11 +392,20 @@ class App extends React.Component {
               name="backgroundLineColor"
               onChange={this.handleChange}
             >
-              {cssColorKeywords.map(color => (
-                <option value={color} key={color}>
-                  {color}
-                </option>
-              ))}
+              {cssColorKeywords.map(color => {
+                if (color === "black") {
+                  return (
+                    <option value={color} key={color} selected>
+                      {color}
+                    </option>
+                  );
+                }
+                return (
+                  <option value={color} key={color}>
+                    {color}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div class="colorPicker">
@@ -393,11 +415,20 @@ class App extends React.Component {
               name="cubeBackgroundColor"
               onChange={this.handleChange}
             >
-              {cssColorKeywords.map(color => (
-                <option value={color} key={color}>
-                  {color}
-                </option>
-              ))}
+              {cssColorKeywords.map(color => {
+                if (color === "lightgrey") {
+                  return (
+                    <option value={color} key={color} selected>
+                      {color}
+                    </option>
+                  );
+                }
+                return (
+                  <option value={color} key={color}>
+                    {color}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div class="colorPicker">
@@ -407,11 +438,20 @@ class App extends React.Component {
               name="cubeFaceLineColor"
               onChange={this.handleChange}
             >
-              {cssColorKeywords.map(color => (
-                <option value={color} key={color}>
-                  {color}
-                </option>
-              ))}
+              {cssColorKeywords.map(color => {
+                if (color === "black") {
+                  return (
+                    <option value={color} key={color} selected>
+                      {color}
+                    </option>
+                  );
+                }
+                return (
+                  <option value={color} key={color}>
+                    {color}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div class="colorPicker">
@@ -421,11 +461,20 @@ class App extends React.Component {
               name="cubeTopLineColor"
               onChange={this.handleChange}
             >
-              {cssColorKeywords.map(color => (
-                <option value={color} key={color}>
-                  {color}
-                </option>
-              ))}
+              {cssColorKeywords.map(color => {
+                if (color === "black") {
+                  return (
+                    <option value={color} key={color} selected>
+                      {color}
+                    </option>
+                  );
+                }
+                return (
+                  <option value={color} key={color}>
+                    {color}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div class="colorPicker">
@@ -435,11 +484,20 @@ class App extends React.Component {
               name="cubeSideLineColor"
               onChange={this.handleChange}
             >
-              {cssColorKeywords.map(color => (
-                <option value={color} key={color}>
-                  {color}
-                </option>
-              ))}
+              {cssColorKeywords.map(color => {
+                if (color === "black") {
+                  return (
+                    <option value={color} key={color} selected>
+                      {color}
+                    </option>
+                  );
+                }
+                return (
+                  <option value={color} key={color}>
+                    {color}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
