@@ -153,7 +153,16 @@ const cssColorKeywords = [
 ];
 
 class Canvas extends React.Component {
+
   componentDidMount() {
+    this.drawCube();
+  }
+
+  componentDidUpdate() {
+    this.drawCube();
+  }
+
+  drawCube() {
     console.log('CANVAS COMPONENT DID MOUNT');
     console.log(this.props);
     const { backgroundColor, backgroundLineColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
