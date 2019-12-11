@@ -163,15 +163,15 @@ class Canvas extends React.Component {
   }
 
   drawCube() {
-    console.log('CANVAS COMPONENT DID MOUNT');
-    console.log(this.props);
-    const { backgroundColor, backgroundLineColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
+    const { backgroundColor, backgroundLineColor, cubeBackgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
     ctx.fillRect(100, 100, 200, 200);
 
-    const drawBackground = (dimension, color) => {
-      ctx.strokeStyle = color;
+    const drawBackground = (dimension, backgroundColor, backgroundLineColor) => {
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, 500, 500);
+      ctx.strokeStyle = backgroundLineColor;
       for (let i = 0; i < dimension / 2 - 1; i++) {
         ctx.beginPath();
         ctx.moveTo(5 + 5 * i, 0);
@@ -201,12 +201,12 @@ class Canvas extends React.Component {
       ctx.stroke();
     };
 
-    const fillCube = dimension => {
+    const fillCube = (dimension, color) => {
       const half = dimension / 2;
       const oneAndAHalf = dimension * 1.5;
       const two = dimension * 2;
       const oneFourth = dimension / 4;
-      ctx.fillStyle = "lightgrey";
+      ctx.fillStyle = color;
       ctx.beginPath();
       ctx.moveTo(half, half);
       ctx.lineTo(oneAndAHalf, half);
@@ -279,30 +279,44 @@ class Canvas extends React.Component {
       }
     };
 
-    const drawFirstCube = (
+    const drawCube = (
       dimension,
+      cubeBackgroundColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor
     ) => {
-      fillCube(dimension);
+      fillCube(dimension, cubeBackgroundColor);
       drawCubeFaceLines(dimension, cubeFaceLineColor);
       drawCubeTopLines(dimension, cubeTopLineColor);
       drawSideLines(dimension, cubeSideLineColor);
       drawCubeOutline(dimension);
     };
 
-    const draw = (dimension, backgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor) => {
-      drawBackground(dimension, backgroundColor);
-      drawFirstCube(dimension, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
+    const draw = (
+      dimension,
+      backgroundColor,
+      backgroundLineColor,
+      cubeBackgroundColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor
+    ) => {
+      drawBackground(dimension, backgroundColor, backgroundLineColor);
+      drawCube(
+        dimension,
+        cubeBackgroundColor,
+        cubeFaceLineColor,
+        cubeTopLineColor,
+        cubeSideLineColor
+      );
     };
 
-    draw(200, backgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
+    draw(200, backgroundColor, backgroundLineColor, cubeBackgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
 
   }
 
   render() {
-    console.log('CANVAS RENDER');
     return(
       <canvas ref="canvas" width={500} height={500} />
     )
@@ -313,25 +327,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      backgroundColor: "aliceblue",
-      backgroundLineColor: "aliceblue",
-      cubeFaceLineColor: "aliceblue",
-      cubeTopLineColor: "aliceblue",
-      cubeSideLineColor: "aliceblue"
+      backgroundColor: "grey",
+      backgroundLineColor: "black",
+      cubeBackgroundColor: "lightgrey",
+      cubeFaceLineColor: "black",
+      cubeTopLineColor: "black",
+      cubeSideLineColor: "black"
     };
   }
 
   handleChange = (e) => {
-    console.log('HANDLE CHANGE');
-    console.log(e.target.name);
-    console.log(e.target.value);
     this.setState({[e.target.name]: e.target.value});
-    console.log('STATE', this.state);
   }
   render() {
     const {
       backgroundColor,
       backgroundLineColor,
+      cubeBackgroundColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor
@@ -350,11 +362,13 @@ class App extends React.Component {
               {cssColorKeywords.map(color => {
                 const optionStyle = {
                   backgroundColor: color,
-                  color: color,
-                }
-                return <option value={color} key={color} style={optionStyle}>
-                  {color}
-                </option>
+                  color: color
+                };
+                return (
+                  <option value={color} key={color} style={optionStyle}>
+                    {color}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -363,6 +377,20 @@ class App extends React.Component {
             <select
               id="backgroundLineColor"
               name="backgroundLineColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="colorPicker">
+            <label for="cubeBackgroundColor">Cube background color:</label>
+            <select
+              id="cubeBackgroundColor"
+              name="cubeBackgroundColor"
               onChange={this.handleChange}
             >
               {cssColorKeywords.map(color => (
@@ -419,6 +447,7 @@ class App extends React.Component {
           <Canvas
             backgroundColor={backgroundColor}
             backgroundLineColor={backgroundLineColor}
+            cubeBackgroundColor={cubeBackgroundColor}
             cubeFaceLineColor={cubeFaceLineColor}
             cubeTopLineColor={cubeTopLineColor}
             cubeSideLineColor={cubeSideLineColor}
