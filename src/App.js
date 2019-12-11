@@ -340,34 +340,80 @@ class App extends React.Component {
       <div>
         <h1>Sol Lewitt Cube Generator</h1>
         <div className="form">
-          <select name="backgroundColor" onChange={this.handleChange}>
-            {cssColorKeywords.map(color => (
-              <option value={color} key={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          <select name="backgroundLineColor" onChange={this.handleChange}>
-            {cssColorKeywords.map(color => (
-              <option value={color} key={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          <select name="cubeFaceLineColor" onChange={this.handleChange}>
-            {cssColorKeywords.map(color => (
-              <option value={color} key={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          <select name="cubeTopLineColor" onChange={this.handleChange}>
-            {cssColorKeywords.map(color => (
-              <option value={color} key={color}>
-                {color}
-              </option>
-            ))}
-          </select>
+          <div class="colorPicker">
+            <label for="backgroundColor">Background color:</label>
+            <select
+              id="backgroundColor"
+              name="backgroundColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => {
+                const optionStyle = {
+                  backgroundColor: color,
+                  color: color,
+                }
+                return <option value={color} key={color} style={optionStyle}>
+                  {color}
+                </option>
+              })}
+            </select>
+          </div>
+          <div class="colorPicker">
+            <label for="backgroundLineColor">Background line color:</label>
+            <select
+              id="backgroundLineColor"
+              name="backgroundLineColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="colorPicker">
+            <label for="cubeFaceLineColor">Cube face line color:</label>
+            <select
+              id="cubeFaceLineColor"
+              name="cubeFaceLineColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="colorPicker">
+            <label for="cubeTopLineColor">Cube top line color:</label>
+            <select
+              id="cubeTopLineColor"
+              name="cubeTopLineColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="colorPicker">
+            <label for="cubeSideLineColor">Cube side line color:</label>
+            <select
+              id="cubeSideLineColor"
+              name="cubeSideLineColor"
+              onChange={this.handleChange}
+            >
+              {cssColorKeywords.map(color => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <div>
           <Canvas
