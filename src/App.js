@@ -5,14 +5,14 @@ import { cssColorKeywords } from './cssColorKeywords';
 class Canvas extends React.Component {
 
   componentDidMount() {
-    this.drawCube();
+    this.drawCanvas();
   }
 
   componentDidUpdate() {
-    this.drawCube();
+    this.drawCanvas();
   }
 
-  drawCube() {
+  drawCanvas() {
     const { backgroundColor, backgroundLineColor, cubeBackgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
