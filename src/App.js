@@ -189,6 +189,11 @@ class App extends React.Component {
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
   }
+
+  handleClick = () => {
+    console.log('BUY A PRINT!');
+  }
+
   render() {
     const {
       backgroundColor,
@@ -207,13 +212,14 @@ class App extends React.Component {
       "cubeTopLineColor",
       "cubeSideLineColor"
     ];
+
     return (
       <div>
         <h1>Sol Lewitt Cube Generator</h1>
         <div className="form">
           {inputs.map(name => (
-            <div class="colorPicker">
-              <label for={name}>{name}</label>
+            <div className="colorPicker">
+              <label htmlFor={name}>{name}</label>
               <select
                 id={name}
                 name={name}
@@ -257,6 +263,7 @@ class App extends React.Component {
             cubeSideLineColor={cubeSideLineColor}
           />
         </div>
+        <button onClick={this.handleClick}>Buy a Print!</button>
       </div>
     );
   }
