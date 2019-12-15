@@ -198,158 +198,54 @@ class App extends React.Component {
       cubeTopLineColor,
       cubeSideLineColor
     } = this.state;
+
+    const inputs = [
+      "backgroundColor",
+      "backgroundLineColor",
+      "cubeBackgroundColor",
+      "cubeFaceLineColor",
+      "cubeTopLineColor",
+      "cubeSideLineColor"
+    ];
     return (
       <div>
         <h1>Sol Lewitt Cube Generator</h1>
         <div className="form">
-          <div class="colorPicker">
-            <label for="backgroundColor">Background color:</label>
-            <select
-              id="backgroundColor"
-              name="backgroundColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                const optionStyle = {
-                  backgroundColor: color,
-                  color: color
-                };
+          {inputs.map(name => (
+            <div class="colorPicker">
+              <label for={name}>{name}</label>
+              <select
+                id={name}
+                name={name}
+                onChange={this.handleChange}
+              >
+                {cssColorKeywords.map(color => {
+                  const optionStyle = {
+                    backgroundColor: color,
+                    color: color
+                  };
 
-                if (color === "lightgrey") {
+                  if (color === "lightgrey") {
+                    return (
+                      <option
+                        value={color}
+                        key={color}
+                        style={optionStyle}
+                        selected
+                      >
+                        {color}
+                      </option>
+                    );
+                  }
                   return (
-                    <option
-                      value={color}
-                      key={color}
-                      style={optionStyle}
-                      selected
-                    >
+                    <option value={color} key={color} style={optionStyle}>
                       {color}
                     </option>
                   );
-                }
-                return (
-                  <option value={color} key={color} style={optionStyle}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div class="colorPicker">
-            <label for="backgroundLineColor">Background line color:</label>
-            <select
-              id="backgroundLineColor"
-              name="backgroundLineColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                if (color === "black") {
-                  return (
-                    <option value={color} key={color} selected>
-                      {color}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={color} key={color}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div class="colorPicker">
-            <label for="cubeBackgroundColor">Cube background color:</label>
-            <select
-              id="cubeBackgroundColor"
-              name="cubeBackgroundColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                if (color === "lightgrey") {
-                  return (
-                    <option value={color} key={color} selected>
-                      {color}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={color} key={color}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div class="colorPicker">
-            <label for="cubeFaceLineColor">Cube face line color:</label>
-            <select
-              id="cubeFaceLineColor"
-              name="cubeFaceLineColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                if (color === "black") {
-                  return (
-                    <option value={color} key={color} selected>
-                      {color}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={color} key={color}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div class="colorPicker">
-            <label for="cubeTopLineColor">Cube top line color:</label>
-            <select
-              id="cubeTopLineColor"
-              name="cubeTopLineColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                if (color === "black") {
-                  return (
-                    <option value={color} key={color} selected>
-                      {color}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={color} key={color}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div class="colorPicker">
-            <label for="cubeSideLineColor">Cube side line color:</label>
-            <select
-              id="cubeSideLineColor"
-              name="cubeSideLineColor"
-              onChange={this.handleChange}
-            >
-              {cssColorKeywords.map(color => {
-                if (color === "black") {
-                  return (
-                    <option value={color} key={color} selected>
-                      {color}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={color} key={color}>
-                    {color}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+                })}
+              </select>
+            </div>
+          ))}
         </div>
         <div>
           <Canvas
