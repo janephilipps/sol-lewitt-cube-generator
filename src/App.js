@@ -61,18 +61,11 @@ class Canvas extends React.Component {
       }
     };
 
-    const drawCubeOutline = (cubeWidth, color) => {
+    const drawCubeFaceOutline = (cubeWidth, color) => {
       // perhaps extract these to the top of drawCanvas so we don't need to re-declare them
       // in each sub-function.
       const half = cubeWidth / 2;
       const oneAndAHalf = cubeWidth * 1.5;
-      const two = cubeWidth * 2;
-      const oneFourth = cubeWidth / 4;
-      // Might be easier to turn this step into 3 sub-steps:
-      // 1. draw front
-      // 2. draw top
-      // 3. draw side
-      // I think it's fine to re-draw lines, i.e. the top front line
       ctx.strokeStyle = color;
       drawLines({
         start: {
@@ -95,7 +88,23 @@ class Canvas extends React.Component {
           {
             x: half,
             y: half
-          },
+          }
+        ]
+      });
+    };
+
+    const drawCubeTopOutline = (cubeWidth, color) => {
+      const half = cubeWidth / 2;
+      const oneAndAHalf = cubeWidth * 1.5;
+      const two = cubeWidth * 2;
+      const oneFourth = cubeWidth / 4;
+      ctx.strokeStyle = color;
+      drawLines({
+        start: {
+          x: half,
+          y: half
+        },
+        linePoints: [
           {
             x: cubeWidth,
             y: oneFourth
@@ -110,6 +119,13 @@ class Canvas extends React.Component {
           }
         ]
       });
+    };
+
+    const drawCubeSideOutline = (cubeWidth, color) => {
+      const oneAndAHalf = cubeWidth * 1.5;
+      const two = cubeWidth * 2;
+      const oneFourth = cubeWidth / 4;
+      ctx.strokeStyle = color;
       drawLines({
         start: {
           x: two,
@@ -126,6 +142,12 @@ class Canvas extends React.Component {
           }
         ]
       });
+    };
+
+    const drawCubeOutline = (cubeWidth, color) => {
+      drawCubeFaceOutline(cubeWidth, color);
+      drawCubeTopOutline(cubeWidth, color);
+      drawCubeSideOutline(cubeWidth, color);
     };
 
     // Extract this and drawCubeOutline into a function that just takes whether
