@@ -160,10 +160,16 @@ class Canvas extends React.Component {
       const oneFifth = cubeWidth / 5;
       ctx.strokeStyle = color;
       for (let i = 1; i < oneFifth; i++) {
-        ctx.beginPath();
-        ctx.moveTo(half, half + 5 * i);
-        ctx.lineTo(oneAndAHalf, half + 5 * i);
-        ctx.stroke();
+        drawLines({
+          start: {
+            x: half,
+            y: half + 5 * i
+          },
+          linePoint: {
+            x: oneAndAHalf,
+            y: half + 5 * i
+          }
+        });
       }
     };
 
@@ -173,10 +179,16 @@ class Canvas extends React.Component {
       const oneFourth = cubeWidth / 4;
       ctx.strokeStyle = color;
       for (let i = 1; i < oneTenth; i++) {
-        ctx.beginPath();
-        ctx.moveTo(half + 10 * i, half);
-        ctx.lineTo(cubeWidth + 10 * i, oneFourth);
-        ctx.stroke();
+        drawLines({
+          start: {
+            x: half + 10 * i,
+            y: half
+          },
+          linePoint: {
+            x: cubeWidth + 10 * i,
+            y: oneFourth
+          }
+        });
       }
     };
 
@@ -187,24 +199,42 @@ class Canvas extends React.Component {
       const two = cubeWidth * 2;
       ctx.strokeStyle = color;
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(two - 10 * i, oneFourth + 5 * i);
-        ctx.lineTo(two, oneFourth + 10 * i);
-        ctx.stroke();
+        drawLines({
+          start: {
+            x: two - 10 * i,
+            y: oneFourth + 5 * i
+          },
+          linePoint: {
+            x: two,
+            y: oneFourth + 10 * i
+          }
+        });
       }
 
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(oneAndAHalf, half + 10 * i);
-        ctx.lineTo(two, cubeWidth * 0.75 + 10 * i);
-        ctx.stroke();
+        drawLines({
+          start: {
+            x: oneAndAHalf,
+            y: half + 10 * i
+          },
+          linePoint: {
+            x: two,
+            y: cubeWidth * 0.75 + 10 * i
+          }
+        });
       }
 
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(oneAndAHalf, cubeWidth + 10 * i);
-        ctx.lineTo(two - 10 * i, cubeWidth * 1.25 + 5 * i);
-        ctx.stroke();
+        drawLines({
+          start: {
+            x: oneAndAHalf,
+            y: cubeWidth + 10 * i
+          },
+          linePoint: {
+            x: two - 10 * i,
+            y: cubeWidth * 1.25 + 5 * i
+          }
+        });
       }
     };
 
