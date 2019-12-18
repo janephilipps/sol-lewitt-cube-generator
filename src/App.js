@@ -22,43 +22,9 @@ class Canvas extends React.Component {
       cubeOutlineColor
     } = this.props;
 
-    // Initialize the canvas.
+    // Initialize the canvas
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
-
-    const drawBackground = (
-      cubeWidth,
-      backgroundColor,
-      backgroundLineColor
-    ) => {
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, cubeWidth * 2.5, cubeWidth * 2.5);
-      ctx.strokeStyle = backgroundLineColor;
-      for (let i = 0; i < cubeWidth / 2 - 1; i++) {
-        ctx.beginPath();
-        ctx.moveTo(5 + 5 * i, 0);
-        ctx.lineTo(5 + 5 * i, cubeWidth * 2.5);
-        ctx.stroke();
-
-        // consider using drawLines
-        // drawLines({
-        //   ctx: ctx,
-        //   start: {
-        //     x: 5 + 5 * i,
-        //     y: 0
-        //   },
-        //   linePoint: {
-        //     x: 5 + 5 * i,
-        //     y: cubeWidth * 2.5,
-        //   }
-        // });
-      }
-    };
-
-    // begin path
-    // move to starting coordinate
-    // at least one lineTo
-    // stroke
 
     const drawLines = obj => {
       ctx.beginPath();
@@ -73,6 +39,28 @@ class Canvas extends React.Component {
       ctx.stroke();
     };
 
+    const drawBackground = (
+      cubeWidth,
+      backgroundColor,
+      backgroundLineColor
+    ) => {
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, cubeWidth * 2.5, cubeWidth * 2.5);
+      ctx.strokeStyle = backgroundLineColor;
+      for (let i = 0; i < cubeWidth / 2 - 1; i++) {
+        drawLines({
+          start: {
+            x: 5 + 5 * i,
+            y: 0
+          },
+          linePoint: {
+            x: 5 + 5 * i,
+            y: cubeWidth * 2.5
+          }
+        });
+      }
+    };
+
     const drawCubeOutline = (cubeWidth, color) => {
       // perhaps extract these to the top of drawCanvas so we don't need to re-declare them
       // in each sub-function.
@@ -85,21 +73,59 @@ class Canvas extends React.Component {
       // 2. draw top
       // 3. draw side
       // I think it's fine to re-draw lines, i.e. the top front line
-
       ctx.strokeStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(half, half);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(half, oneAndAHalf);
-      ctx.lineTo(half, half);
-      ctx.lineTo(cubeWidth, oneFourth);
-      ctx.lineTo(two, oneFourth);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.moveTo(two, oneFourth);
-      ctx.lineTo(two, cubeWidth * 1.25);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.stroke();
+      drawLines({
+        start: {
+          x: half,
+          y: half
+        },
+        linePoints: [
+          {
+            x: oneAndAHalf,
+            y: half
+          },
+          {
+            x: oneAndAHalf,
+            y: oneAndAHalf
+          },
+          {
+            x: half,
+            y: oneAndAHalf
+          },
+          {
+            x: half,
+            y: half
+          },
+          {
+            x: cubeWidth,
+            y: oneFourth
+          },
+          {
+            x: two,
+            y: oneFourth
+          },
+          {
+            x: oneAndAHalf,
+            y: half
+          }
+        ]
+      });
+      drawLines({
+        start: {
+          x: two,
+          y: oneFourth
+        },
+        linePoints: [
+          {
+            x: two,
+            y: cubeWidth * 1.25
+          },
+          {
+            x: oneAndAHalf,
+            y: oneAndAHalf
+          }
+        ]
+      });
     };
 
     // Extract this and drawCubeOutline into a function that just takes whether
