@@ -335,6 +335,33 @@ class App extends React.Component {
     console.log("BUY A PRINT!");
   };
 
+  _getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  handleRandomizeClick = () => {
+    const backgroundColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const backgroundLineColor =
+      cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeBackgroundColor =
+      cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeFaceLineColor =
+      cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeTopLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeSideLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeOutlineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+
+    this.setState({
+      backgroundColor,
+      backgroundLineColor,
+      cubeBackgroundColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor,
+      cubeOutlineColor
+    });
+  };
+
   render() {
     const {
       backgroundColor,
@@ -392,6 +419,7 @@ class App extends React.Component {
               </select>
             </div>
           ))}
+          <button onClick={this.handleRandomizeClick}>Randomize!</button>
         </div>
         <div>
           <Canvas
