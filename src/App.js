@@ -15,7 +15,9 @@ class Canvas extends React.Component {
     const {
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
@@ -152,11 +154,9 @@ class Canvas extends React.Component {
 
     // Extract this and drawCubeOutline into a function that just takes whether
     // we're doing fill or stroke.
-    const fillCube = (cubeWidth, color) => {
+    const fillCubeFace = (cubeWidth, color) => {
       const half = cubeWidth / 2;
       const oneAndAHalf = cubeWidth * 1.5;
-      const two = cubeWidth * 2;
-      const oneFourth = cubeWidth / 4;
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.moveTo(half, half);
@@ -164,11 +164,29 @@ class Canvas extends React.Component {
       ctx.lineTo(oneAndAHalf, oneAndAHalf);
       ctx.lineTo(half, oneAndAHalf);
       ctx.fill();
+    };
+
+    const fillCubeTop = (cubeWidth, color) => {
+      const half = cubeWidth / 2;
+      const oneAndAHalf = cubeWidth * 1.5;
+      const two = cubeWidth * 2;
+      const oneFourth = cubeWidth / 4;
+      ctx.fillStyle = color;
+      ctx.beginPath();
       ctx.moveTo(half, half);
       ctx.lineTo(cubeWidth, oneFourth);
       ctx.lineTo(two, oneFourth);
       ctx.lineTo(oneAndAHalf, half);
       ctx.fill();
+    };
+
+    const fillCubeSide = (cubeWidth, color) => {
+      const half = cubeWidth / 2;
+      const oneAndAHalf = cubeWidth * 1.5;
+      const two = cubeWidth * 2;
+      const oneFourth = cubeWidth / 4;
+      ctx.fillStyle = color;
+      ctx.beginPath();
       ctx.moveTo(two, oneFourth);
       ctx.lineTo(two, cubeWidth * 1.25);
       ctx.lineTo(oneAndAHalf, oneAndAHalf);
@@ -262,13 +280,17 @@ class Canvas extends React.Component {
 
     const drawCube = (
       cubeWidth,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
       cubeOutlineColor
     ) => {
-      fillCube(cubeWidth, cubeBackgroundColor);
+      fillCubeFace(cubeWidth, cubeFaceColor);
+      fillCubeTop(cubeWidth, cubeTopColor);
+      fillCubeSide(cubeWidth, cubeSideColor);
       drawCubeFaceLines(cubeWidth, cubeFaceLineColor);
       drawCubeTopLines(cubeWidth, cubeTopLineColor);
       drawSideLines(cubeWidth, cubeSideLineColor);
@@ -279,7 +301,9 @@ class Canvas extends React.Component {
       cubeWidth,
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
@@ -288,7 +312,9 @@ class Canvas extends React.Component {
       drawBackground(cubeWidth, backgroundColor, backgroundLineColor);
       drawCube(
         cubeWidth,
-        cubeBackgroundColor,
+        cubeFaceColor,
+        cubeTopColor,
+        cubeSideColor,
         cubeFaceLineColor,
         cubeTopLineColor,
         cubeSideLineColor,
@@ -300,7 +326,9 @@ class Canvas extends React.Component {
       cubeWidth: 200,
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
@@ -319,7 +347,9 @@ class App extends React.Component {
     this.state = {
       backgroundColor: "lightgrey",
       backgroundLineColor: "black",
-      cubeBackgroundColor: "lightgrey",
+      cubeFaceColor: "lightgrey",
+      cubeTopColor: "lightgrey",
+      cubeSideColor: "lightgrey",
       cubeFaceLineColor: "black",
       cubeTopLineColor: "black",
       cubeSideLineColor: "black",
@@ -341,12 +371,11 @@ class App extends React.Component {
 
   handleRandomizeClick = () => {
     const backgroundColor = cssColorKeywords[this._getRandomInt(0, 147)];
-    const backgroundLineColor =
-      cssColorKeywords[this._getRandomInt(0, 147)];
-    const cubeBackgroundColor =
-      cssColorKeywords[this._getRandomInt(0, 147)];
-    const cubeFaceLineColor =
-      cssColorKeywords[this._getRandomInt(0, 147)];
+    const backgroundLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeFaceColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeTopColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeSideColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeFaceLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
     const cubeTopLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
     const cubeSideLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
     const cubeOutlineColor = cssColorKeywords[this._getRandomInt(0, 147)];
@@ -354,7 +383,9 @@ class App extends React.Component {
     this.setState({
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
@@ -366,7 +397,9 @@ class App extends React.Component {
     const {
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
       cubeSideLineColor,
@@ -376,7 +409,9 @@ class App extends React.Component {
     const inputs = [
       "backgroundColor",
       "backgroundLineColor",
-      "cubeBackgroundColor",
+      "cubeFaceColor",
+      "cubeTopColor",
+      "cubeSideColor",
       "cubeFaceLineColor",
       "cubeTopLineColor",
       "cubeSideLineColor",
@@ -425,7 +460,9 @@ class App extends React.Component {
           <Canvas
             backgroundColor={backgroundColor}
             backgroundLineColor={backgroundLineColor}
-            cubeBackgroundColor={cubeBackgroundColor}
+            cubeFaceColor={cubeFaceColor}
+            cubeTopColor={cubeTopColor}
+            cubeSideColor={cubeSideColor}
             cubeFaceLineColor={cubeFaceLineColor}
             cubeTopLineColor={cubeTopLineColor}
             cubeSideLineColor={cubeSideLineColor}
