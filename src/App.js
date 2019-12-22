@@ -397,38 +397,46 @@ class App extends React.Component {
       <div>
         <h1>Sol Lewitt Cube Generator</h1>
         <div className="form">
-          {inputs.map(name => (
-            <div className="colorPicker">
-              <label htmlFor={name}>{name}</label>
-              <select id={name} name={name} onChange={this.handleChange}>
-                {cssColorKeywords.map(color => {
-                  const optionStyle = {
-                    backgroundColor: color,
-                    color: color
-                  };
+          {inputs.map(name => {
+            const splitName = name.split(/(?=[A-Z])/);
+            const splitNameFirstWordCapitalized =
+              splitName[0].charAt(0).toUpperCase() + splitName[0].slice(1);
+            splitName.shift();
+            splitName.unshift(splitNameFirstWordCapitalized);
+            const formattedName = splitName.join(" ");
+            return (
+              <div className="colorPicker">
+                <label htmlFor={name}>{formattedName}:</label>
+                <select id={name} name={name} onChange={this.handleChange}>
+                  {cssColorKeywords.map(color => {
+                    const optionStyle = {
+                      backgroundColor: color,
+                      color: color
+                    };
 
-                  if (color === "lightgrey") {
-                    return (
-                      <option
-                        value={color}
-                        key={color}
-                        style={optionStyle}
-                        selected
-                      >
-                        {color}
-                      </option>
-                    );
-                  } else {
-                    return (
-                      <option value={color} key={color} style={optionStyle}>
-                        {color}
-                      </option>
-                    );
-                  }
-                })}
-              </select>
-            </div>
-          ))}
+                    if (color === "lightgrey") {
+                      return (
+                        <option
+                          value={color}
+                          key={color}
+                          style={optionStyle}
+                          selected
+                        >
+                          {color}
+                        </option>
+                      );
+                    } else {
+                      return (
+                        <option value={color} key={color} style={optionStyle}>
+                          {color}
+                        </option>
+                      );
+                    }
+                  })}
+                </select>
+              </div>
+            );
+          })}
           <button onClick={this.handleRandomizeClick}>Randomize!</button>
         </div>
         <div>
