@@ -414,7 +414,7 @@ class App extends React.Component {
                       color: color
                     };
 
-                    if (color === "lightgrey") {
+                    if (color === this.state[name]) {
                       return (
                         <option
                           value={color}
