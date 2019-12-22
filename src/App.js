@@ -16,12 +16,12 @@ class Canvas extends React.Component {
     const half = DEFAULT_CUBE_WIDTH / 2;
     const oneAndAHalf = DEFAULT_CUBE_WIDTH * 1.5;
     const two = DEFAULT_CUBE_WIDTH * 2;
-    const oneFourth = DEFAULT_CUBE_WIDTH / 4;
     const oneFifth = DEFAULT_CUBE_WIDTH / 5;
     const oneTenth = DEFAULT_CUBE_WIDTH / 10;
     const twoAndAHalf = DEFAULT_CUBE_WIDTH * 2.5;
     const oneAndAQuarter = DEFAULT_CUBE_WIDTH * 1.25;
     const threeQuarters = DEFAULT_CUBE_WIDTH * 0.75;
+    const oneAndThreeQuarters = DEFAULT_CUBE_WIDTH * 1.75;
     const {
       backgroundColor,
       backgroundLineColor,
@@ -85,24 +85,24 @@ class Canvas extends React.Component {
         fill,
         start: {
           x: half,
-          y: half
+          y: threeQuarters
         },
         linePoints: [
           {
             x: oneAndAHalf,
-            y: half
+            y: threeQuarters
           },
           {
             x: oneAndAHalf,
-            y: oneAndAHalf
+            y: oneAndThreeQuarters
           },
           {
             x: half,
-            y: oneAndAHalf
+            y: oneAndThreeQuarters
           },
           {
             x: half,
-            y: half
+            y: threeQuarters
           }
         ]
       });
@@ -114,20 +114,20 @@ class Canvas extends React.Component {
         fill,
         start: {
           x: half,
-          y: half
+          y: threeQuarters
         },
         linePoints: [
           {
             x: DEFAULT_CUBE_WIDTH,
-            y: oneFourth
+            y: half
           },
           {
             x: two,
-            y: oneFourth
+            y: half
           },
           {
             x: oneAndAHalf,
-            y: half
+            y: threeQuarters
           }
         ]
       });
@@ -139,20 +139,20 @@ class Canvas extends React.Component {
         fill,
         start: {
           x: oneAndAHalf,
-          y: half
+          y: threeQuarters
         },
         linePoints: [
           {
             x: two,
-            y: oneFourth
+            y: half
           },
           {
             x: two,
-            y: oneAndAQuarter
+            y: oneAndAHalf
           },
           {
             x: oneAndAHalf,
-            y: oneAndAHalf
+            y: oneAndThreeQuarters
           }
         ]
       });
@@ -183,11 +183,11 @@ class Canvas extends React.Component {
           fill: false,
           start: {
             x: half,
-            y: half + 5 * i
+            y: threeQuarters + 5 * i
           },
           linePoint: {
             x: oneAndAHalf,
-            y: half + 5 * i
+            y: threeQuarters + 5 * i
           }
         });
       }
@@ -200,11 +200,11 @@ class Canvas extends React.Component {
           fill: false,
           start: {
             x: half + 10 * i,
-            y: half
+            y: threeQuarters
           },
           linePoint: {
             x: DEFAULT_CUBE_WIDTH + 10 * i,
-            y: oneFourth
+            y: half
           }
         });
       }
@@ -217,26 +217,11 @@ class Canvas extends React.Component {
           fill: false,
           start: {
             x: two - 10 * i,
-            y: oneFourth + 5 * i
+            y: half + 5 * i
           },
           linePoint: {
             x: two,
-            y: oneFourth + 10 * i
-          }
-        });
-      }
-
-      for (let i = 1; i < 11; i++) {
-        drawLines({
-          color,
-          fill: false,
-          start: {
-            x: oneAndAHalf,
             y: half + 10 * i
-          },
-          linePoint: {
-            x: two,
-            y: threeQuarters + 10 * i
           }
         });
       }
@@ -247,11 +232,26 @@ class Canvas extends React.Component {
           fill: false,
           start: {
             x: oneAndAHalf,
+            y: threeQuarters + 10 * i
+          },
+          linePoint: {
+            x: two,
             y: DEFAULT_CUBE_WIDTH + 10 * i
+          }
+        });
+      }
+
+      for (let i = 1; i < 11; i++) {
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: oneAndAHalf,
+            y: oneAndAQuarter + 10 * i
           },
           linePoint: {
             x: two - 10 * i,
-            y: oneAndAQuarter + 5 * i
+            y: oneAndAHalf + 5 * i
           }
         });
       }
