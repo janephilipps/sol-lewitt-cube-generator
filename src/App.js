@@ -1,9 +1,8 @@
-import React from 'react';
-import './App.css';
-import { cssColorKeywords } from './cssColorKeywords';
+import React from "react";
+import "./App.css";
+import { cssColorKeywords } from "./cssColorKeywords";
 
 class Canvas extends React.Component {
-
   componentDidMount() {
     this.drawCanvas();
   }
@@ -13,163 +12,307 @@ class Canvas extends React.Component {
   }
 
   drawCanvas() {
-    const { backgroundColor, backgroundLineColor, cubeBackgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor } = this.props;
+    const DEFAULT_CUBE_WIDTH = 200;
+    const half = DEFAULT_CUBE_WIDTH / 2;
+    const oneAndAHalf = DEFAULT_CUBE_WIDTH * 1.5;
+    const two = DEFAULT_CUBE_WIDTH * 2;
+    const oneFourth = DEFAULT_CUBE_WIDTH / 4;
+    const oneFifth = DEFAULT_CUBE_WIDTH / 5;
+    const oneTenth = DEFAULT_CUBE_WIDTH / 10;
+    const twoAndAHalf = DEFAULT_CUBE_WIDTH * 2.5;
+    const oneAndAQuarter = DEFAULT_CUBE_WIDTH * 1.25;
+    const threeQuarters = DEFAULT_CUBE_WIDTH * 0.75;
+    const {
+      backgroundColor,
+      backgroundLineColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor,
+      cubeOutlineColor
+    } = this.props;
+
+    // Initialize the canvas
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
-    ctx.fillRect(100, 100, 200, 200);
 
-    const drawBackground = (dimension, backgroundColor, backgroundLineColor) => {
+    const drawLines = obj => {
+      if (obj.fill) {
+        ctx.fillStyle = obj.color;
+      } else {
+        ctx.strokeStyle = obj.color;
+      }
+      ctx.beginPath();
+      ctx.moveTo(obj.start.x, obj.start.y);
+      if (obj.linePoint) {
+        ctx.lineTo(obj.linePoint.x, obj.linePoint.y);
+      } else {
+        obj.linePoints.forEach(linePoint => {
+          ctx.lineTo(linePoint.x, linePoint.y);
+        });
+      }
+      if (obj.fill) {
+        ctx.fill();
+      } else {
+        ctx.stroke();
+      }
+    };
+
+    const drawBackground = (backgroundColor, backgroundLineColor) => {
       ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, 500, 500);
-      ctx.strokeStyle = backgroundLineColor;
-      for (let i = 0; i < dimension / 2 - 1; i++) {
-        ctx.beginPath();
-        ctx.moveTo(5 + 5 * i, 0);
-        ctx.lineTo(5 + 5 * i, dimension * 2.5);
-        ctx.stroke();
+      ctx.fillRect(0, 0, twoAndAHalf, twoAndAHalf);
+      for (let i = 0; i < half - 1; i++) {
+        drawLines({
+          color: backgroundLineColor,
+          fill: false,
+          start: {
+            x: 5 + 5 * i,
+            y: 0
+          },
+          linePoint: {
+            x: 5 + 5 * i,
+            y: twoAndAHalf
+          }
+        });
       }
     };
 
-    const drawCubeOutline = dimension => {
-      const half = dimension / 2;
-      const oneAndAHalf = dimension * 1.5;
-      const two = dimension * 2;
-      const oneFourth = dimension / 4;
-      ctx.strokeStyle = "black";
-      ctx.beginPath();
-      ctx.moveTo(half, half);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(half, oneAndAHalf);
-      ctx.lineTo(half, half);
-      ctx.lineTo(dimension, oneFourth);
-      ctx.lineTo(two, oneFourth);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.moveTo(two, oneFourth);
-      ctx.lineTo(two, dimension * 1.25);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.stroke();
+    const drawCubeFaceOutline = (color, fill) => {
+      drawLines({
+        color,
+        fill,
+        start: {
+          x: half,
+          y: half
+        },
+        linePoints: [
+          {
+            x: oneAndAHalf,
+            y: half
+          },
+          {
+            x: oneAndAHalf,
+            y: oneAndAHalf
+          },
+          {
+            x: half,
+            y: oneAndAHalf
+          },
+          {
+            x: half,
+            y: half
+          }
+        ]
+      });
     };
 
-    const fillCube = (dimension, color) => {
-      const half = dimension / 2;
-      const oneAndAHalf = dimension * 1.5;
-      const two = dimension * 2;
-      const oneFourth = dimension / 4;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(half, half);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(half, oneAndAHalf);
-      ctx.fill();
-      ctx.moveTo(half, half);
-      ctx.lineTo(dimension, oneFourth);
-      ctx.lineTo(two, oneFourth);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.fill();
-      ctx.moveTo(two, oneFourth);
-      ctx.lineTo(two, dimension * 1.25);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.fill();
+    const drawCubeTopOutline = (color, fill) => {
+      drawLines({
+        color,
+        fill,
+        start: {
+          x: half,
+          y: half
+        },
+        linePoints: [
+          {
+            x: DEFAULT_CUBE_WIDTH,
+            y: oneFourth
+          },
+          {
+            x: two,
+            y: oneFourth
+          },
+          {
+            x: oneAndAHalf,
+            y: half
+          }
+        ]
+      });
     };
 
-    const drawCubeFaceLines = (dimension, color) => {
-      const half = dimension / 2;
-      const oneAndAHalf = dimension * 1.5;
-      const oneFifth = dimension / 5;
-      ctx.strokeStyle = color;
+    const drawCubeSideOutline = (color, fill) => {
+      drawLines({
+        color,
+        fill,
+        start: {
+          x: oneAndAHalf,
+          y: half
+        },
+        linePoints: [
+          {
+            x: two,
+            y: oneFourth
+          },
+          {
+            x: two,
+            y: oneAndAQuarter
+          },
+          {
+            x: oneAndAHalf,
+            y: oneAndAHalf
+          }
+        ]
+      });
+    };
+
+    const drawCubeOutline = color => {
+      drawCubeFaceOutline(color, false);
+      drawCubeTopOutline(color, false);
+      drawCubeSideOutline(color, false);
+    };
+
+    const fillCubeFace = color => {
+      drawCubeFaceOutline(color, true);
+    };
+
+    const fillCubeTop = color => {
+      drawCubeTopOutline(color, true);
+    };
+
+    const fillCubeSide = color => {
+      drawCubeSideOutline(color, true);
+    };
+
+    const drawCubeFaceLines = color => {
       for (let i = 1; i < oneFifth; i++) {
-        ctx.beginPath();
-        ctx.moveTo(half, half + 5 * i);
-        ctx.lineTo(oneAndAHalf, half + 5 * i);
-        ctx.stroke();
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: half,
+            y: half + 5 * i
+          },
+          linePoint: {
+            x: oneAndAHalf,
+            y: half + 5 * i
+          }
+        });
       }
     };
 
-    const drawCubeTopLines = (dimension, color) => {
-      const half = dimension / 2;
-      const oneTenth = dimension / 10;
-      const oneFourth = dimension / 4;
-      ctx.strokeStyle = color;
+    const drawCubeTopLines = color => {
       for (let i = 1; i < oneTenth; i++) {
-        ctx.beginPath();
-        ctx.moveTo(half + 10 * i, half);
-        ctx.lineTo(dimension + 10 * i, oneFourth);
-        ctx.stroke();
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: half + 10 * i,
+            y: half
+          },
+          linePoint: {
+            x: DEFAULT_CUBE_WIDTH + 10 * i,
+            y: oneFourth
+          }
+        });
       }
     };
 
-    const drawSideLines = (dimension, color) => {
-      const half = dimension / 2;
-      const oneAndAHalf = dimension * 1.5;
-      const oneFourth = dimension / 4;
-      const two = dimension * 2;
-      ctx.strokeStyle = color;
+    const drawSideLines = color => {
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(two - 10 * i, oneFourth + 5 * i);
-        ctx.lineTo(two, oneFourth + 10 * i);
-        ctx.stroke();
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: two - 10 * i,
+            y: oneFourth + 5 * i
+          },
+          linePoint: {
+            x: two,
+            y: oneFourth + 10 * i
+          }
+        });
       }
 
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(oneAndAHalf, half + 10 * i);
-        ctx.lineTo(two, dimension * 0.75 + 10 * i);
-        ctx.stroke();
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: oneAndAHalf,
+            y: half + 10 * i
+          },
+          linePoint: {
+            x: two,
+            y: threeQuarters + 10 * i
+          }
+        });
       }
 
       for (let i = 1; i < 11; i++) {
-        ctx.beginPath();
-        ctx.moveTo(oneAndAHalf, dimension + 10 * i);
-        ctx.lineTo(two - 10 * i, dimension * 1.25 + 5 * i);
-        ctx.stroke();
+        drawLines({
+          color,
+          fill: false,
+          start: {
+            x: oneAndAHalf,
+            y: DEFAULT_CUBE_WIDTH + 10 * i
+          },
+          linePoint: {
+            x: two - 10 * i,
+            y: oneAndAQuarter + 5 * i
+          }
+        });
       }
     };
 
     const drawCube = (
-      dimension,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
-      cubeSideLineColor
+      cubeSideLineColor,
+      cubeOutlineColor
     ) => {
-      fillCube(dimension, cubeBackgroundColor);
-      drawCubeFaceLines(dimension, cubeFaceLineColor);
-      drawCubeTopLines(dimension, cubeTopLineColor);
-      drawSideLines(dimension, cubeSideLineColor);
-      drawCubeOutline(dimension);
+      fillCubeFace(cubeFaceColor);
+      fillCubeTop(cubeTopColor);
+      fillCubeSide(cubeSideColor);
+      drawCubeFaceLines(cubeFaceLineColor);
+      drawCubeTopLines(cubeTopLineColor);
+      drawSideLines(cubeSideLineColor);
+      drawCubeOutline(cubeOutlineColor);
     };
 
-    const draw = (
-      dimension,
+    const draw = ({
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
-      cubeSideLineColor
-    ) => {
-      drawBackground(dimension, backgroundColor, backgroundLineColor);
+      cubeSideLineColor,
+      cubeOutlineColor
+    }) => {
+      drawBackground(backgroundColor, backgroundLineColor);
       drawCube(
-        dimension,
-        cubeBackgroundColor,
+        cubeFaceColor,
+        cubeTopColor,
+        cubeSideColor,
         cubeFaceLineColor,
         cubeTopLineColor,
-        cubeSideLineColor
+        cubeSideLineColor,
+        cubeOutlineColor
       );
     };
 
-    draw(200, backgroundColor, backgroundLineColor, cubeBackgroundColor, cubeFaceLineColor, cubeTopLineColor, cubeSideLineColor);
-
+    draw({
+      backgroundColor,
+      backgroundLineColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor,
+      cubeOutlineColor
+    });
   }
 
   render() {
-    return(
-      <canvas ref="canvas" width={500} height={500} />
-    )
+    return <canvas ref="canvas" width={500} height={500} />;
   }
 }
 
@@ -179,38 +322,75 @@ class App extends React.Component {
     this.state = {
       backgroundColor: "lightgrey",
       backgroundLineColor: "black",
-      cubeBackgroundColor: "lightgrey",
+      cubeFaceColor: "lightgrey",
+      cubeTopColor: "lightgrey",
+      cubeSideColor: "lightgrey",
       cubeFaceLineColor: "black",
       cubeTopLineColor: "black",
-      cubeSideLineColor: "black"
+      cubeSideLineColor: "black",
+      cubeOutlineColor: "black"
     };
   }
 
-  handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value});
-  }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   handleClick = () => {
-    console.log('BUY A PRINT!');
+    console.log("BUY A PRINT!");
+  };
+
+  _getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
   }
+
+  handleRandomizeClick = () => {
+    const backgroundColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const backgroundLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeFaceColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeTopColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeSideColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeFaceLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeTopLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeSideLineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+    const cubeOutlineColor = cssColorKeywords[this._getRandomInt(0, 147)];
+
+    this.setState({
+      backgroundColor,
+      backgroundLineColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
+      cubeFaceLineColor,
+      cubeTopLineColor,
+      cubeSideLineColor,
+      cubeOutlineColor
+    });
+  };
 
   render() {
     const {
       backgroundColor,
       backgroundLineColor,
-      cubeBackgroundColor,
+      cubeFaceColor,
+      cubeTopColor,
+      cubeSideColor,
       cubeFaceLineColor,
       cubeTopLineColor,
-      cubeSideLineColor
+      cubeSideLineColor,
+      cubeOutlineColor
     } = this.state;
 
     const inputs = [
       "backgroundColor",
       "backgroundLineColor",
-      "cubeBackgroundColor",
+      "cubeFaceColor",
+      "cubeTopColor",
+      "cubeSideColor",
       "cubeFaceLineColor",
       "cubeTopLineColor",
-      "cubeSideLineColor"
+      "cubeSideLineColor",
+      "cubeOutlineColor"
     ];
 
     return (
@@ -220,11 +400,7 @@ class App extends React.Component {
           {inputs.map(name => (
             <div className="colorPicker">
               <label htmlFor={name}>{name}</label>
-              <select
-                id={name}
-                name={name}
-                onChange={this.handleChange}
-              >
+              <select id={name} name={name} onChange={this.handleChange}>
                 {cssColorKeywords.map(color => {
                   const optionStyle = {
                     backgroundColor: color,
@@ -242,25 +418,30 @@ class App extends React.Component {
                         {color}
                       </option>
                     );
+                  } else {
+                    return (
+                      <option value={color} key={color} style={optionStyle}>
+                        {color}
+                      </option>
+                    );
                   }
-                  return (
-                    <option value={color} key={color} style={optionStyle}>
-                      {color}
-                    </option>
-                  );
                 })}
               </select>
             </div>
           ))}
+          <button onClick={this.handleRandomizeClick}>Randomize!</button>
         </div>
         <div>
           <Canvas
             backgroundColor={backgroundColor}
             backgroundLineColor={backgroundLineColor}
-            cubeBackgroundColor={cubeBackgroundColor}
+            cubeFaceColor={cubeFaceColor}
+            cubeTopColor={cubeTopColor}
+            cubeSideColor={cubeSideColor}
             cubeFaceLineColor={cubeFaceLineColor}
             cubeTopLineColor={cubeTopLineColor}
             cubeSideLineColor={cubeSideLineColor}
+            cubeOutlineColor={cubeOutlineColor}
           />
         </div>
         <button onClick={this.handleClick}>Buy a Print!</button>
