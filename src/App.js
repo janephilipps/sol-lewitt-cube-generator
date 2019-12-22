@@ -29,6 +29,11 @@ class Canvas extends React.Component {
     const ctx = canvas.getContext("2d");
 
     const drawLines = obj => {
+      if (obj.fill) {
+        ctx.fillStyle = obj.color;
+      } else {
+        ctx.strokeStyle = obj.color;
+      }
       ctx.beginPath();
       ctx.moveTo(obj.start.x, obj.start.y);
       if (obj.linePoint) {
@@ -38,7 +43,11 @@ class Canvas extends React.Component {
           ctx.lineTo(linePoint.x, linePoint.y);
         });
       }
-      ctx.stroke();
+      if (obj.fill) {
+        ctx.fill();
+      } else {
+        ctx.stroke();
+      }
     };
 
     const drawBackground = (
@@ -48,9 +57,10 @@ class Canvas extends React.Component {
     ) => {
       ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, cubeWidth * 2.5, cubeWidth * 2.5);
-      ctx.strokeStyle = backgroundLineColor;
       for (let i = 0; i < cubeWidth / 2 - 1; i++) {
         drawLines({
+          color: backgroundLineColor,
+          fill: false,
           start: {
             x: 5 + 5 * i,
             y: 0
@@ -63,13 +73,14 @@ class Canvas extends React.Component {
       }
     };
 
-    const drawCubeFaceOutline = (cubeWidth, color) => {
+    const drawCubeFaceOutline = (cubeWidth, color, fill) => {
       // perhaps extract these to the top of drawCanvas so we don't need to re-declare them
       // in each sub-function.
       const half = cubeWidth / 2;
       const oneAndAHalf = cubeWidth * 1.5;
-      ctx.strokeStyle = color;
       drawLines({
+        color,
+        fill,
         start: {
           x: half,
           y: half
@@ -95,13 +106,14 @@ class Canvas extends React.Component {
       });
     };
 
-    const drawCubeTopOutline = (cubeWidth, color) => {
+    const drawCubeTopOutline = (cubeWidth, color, fill) => {
       const half = cubeWidth / 2;
       const oneAndAHalf = cubeWidth * 1.5;
       const two = cubeWidth * 2;
       const oneFourth = cubeWidth / 4;
-      ctx.strokeStyle = color;
       drawLines({
+        color,
+        fill,
         start: {
           x: half,
           y: half
@@ -123,17 +135,23 @@ class Canvas extends React.Component {
       });
     };
 
-    const drawCubeSideOutline = (cubeWidth, color) => {
+    const drawCubeSideOutline = (cubeWidth, color, fill) => {
       const oneAndAHalf = cubeWidth * 1.5;
       const two = cubeWidth * 2;
+      const half = cubeWidth / 2;
       const oneFourth = cubeWidth / 4;
-      ctx.strokeStyle = color;
       drawLines({
+        color,
+        fill,
         start: {
-          x: two,
-          y: oneFourth
+          x: oneAndAHalf,
+          y: half
         },
         linePoints: [
+          {
+            x: two,
+            y: oneFourth
+          },
           {
             x: two,
             y: cubeWidth * 1.25
@@ -147,60 +165,31 @@ class Canvas extends React.Component {
     };
 
     const drawCubeOutline = (cubeWidth, color) => {
-      drawCubeFaceOutline(cubeWidth, color);
-      drawCubeTopOutline(cubeWidth, color);
-      drawCubeSideOutline(cubeWidth, color);
+      drawCubeFaceOutline(cubeWidth, color, false);
+      drawCubeTopOutline(cubeWidth, color, false);
+      drawCubeSideOutline(cubeWidth, color, false);
     };
 
-    // Extract this and drawCubeOutline into a function that just takes whether
-    // we're doing fill or stroke.
     const fillCubeFace = (cubeWidth, color) => {
-      const half = cubeWidth / 2;
-      const oneAndAHalf = cubeWidth * 1.5;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(half, half);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(half, oneAndAHalf);
-      ctx.fill();
+      drawCubeFaceOutline(cubeWidth, color, true);
     };
 
     const fillCubeTop = (cubeWidth, color) => {
-      const half = cubeWidth / 2;
-      const oneAndAHalf = cubeWidth * 1.5;
-      const two = cubeWidth * 2;
-      const oneFourth = cubeWidth / 4;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(half, half);
-      ctx.lineTo(cubeWidth, oneFourth);
-      ctx.lineTo(two, oneFourth);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.fill();
+      drawCubeTopOutline(cubeWidth, color, true);
     };
 
     const fillCubeSide = (cubeWidth, color) => {
-      const half = cubeWidth / 2;
-      const oneAndAHalf = cubeWidth * 1.5;
-      const two = cubeWidth * 2;
-      const oneFourth = cubeWidth / 4;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(two, oneFourth);
-      ctx.lineTo(two, cubeWidth * 1.25);
-      ctx.lineTo(oneAndAHalf, oneAndAHalf);
-      ctx.lineTo(oneAndAHalf, half);
-      ctx.fill();
+      drawCubeSideOutline(cubeWidth, color, true);
     };
 
     const drawCubeFaceLines = (cubeWidth, color) => {
       const half = cubeWidth / 2;
       const oneAndAHalf = cubeWidth * 1.5;
       const oneFifth = cubeWidth / 5;
-      ctx.strokeStyle = color;
       for (let i = 1; i < oneFifth; i++) {
         drawLines({
+          color,
+          fill: false,
           start: {
             x: half,
             y: half + 5 * i
@@ -217,9 +206,10 @@ class Canvas extends React.Component {
       const half = cubeWidth / 2;
       const oneTenth = cubeWidth / 10;
       const oneFourth = cubeWidth / 4;
-      ctx.strokeStyle = color;
       for (let i = 1; i < oneTenth; i++) {
         drawLines({
+          color,
+          fill: false,
           start: {
             x: half + 10 * i,
             y: half
@@ -237,9 +227,10 @@ class Canvas extends React.Component {
       const oneAndAHalf = cubeWidth * 1.5;
       const oneFourth = cubeWidth / 4;
       const two = cubeWidth * 2;
-      ctx.strokeStyle = color;
       for (let i = 1; i < 11; i++) {
         drawLines({
+          color,
+          fill: false,
           start: {
             x: two - 10 * i,
             y: oneFourth + 5 * i
@@ -253,6 +244,8 @@ class Canvas extends React.Component {
 
       for (let i = 1; i < 11; i++) {
         drawLines({
+          color,
+          fill: false,
           start: {
             x: oneAndAHalf,
             y: half + 10 * i
@@ -266,6 +259,8 @@ class Canvas extends React.Component {
 
       for (let i = 1; i < 11; i++) {
         drawLines({
+          color,
+          fill: false,
           start: {
             x: oneAndAHalf,
             y: cubeWidth + 10 * i
