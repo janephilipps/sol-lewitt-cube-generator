@@ -406,7 +406,7 @@ class App extends React.Component {
             const formattedName = splitName.join(" ");
             return (
               <div className="colorPicker">
-                <label htmlFor={name}>{formattedName}:</label>
+                <label htmlFor={name}>{formattedName}:&nbsp;</label>
                 <select id={name} name={name} onChange={this.handleChange}>
                   {cssColorKeywords.map(color => {
                     const optionStyle = {

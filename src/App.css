@@ -38,3 +38,7 @@ select:not([multiple]) {
   padding: .5em;
   padding-right: 1.5em
 }
+
+label {
+  font-weight: bold;
+}
