@@ -23,8 +23,21 @@ class App extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     console.log("BUY A PRINT!");
+    const data = this.state;
+    console.log('DATA', data);
+    const response = await fetch('/api/cubes', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    console.log('RESPONSE', response);
   };
 
   _getRandomInt(min, max) {

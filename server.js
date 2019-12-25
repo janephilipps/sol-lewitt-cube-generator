@@ -1,10 +1,15 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 
+// create application/json parser
+const jsonParser = bodyParser.json()
+
 app.set("port", process.env.PORT || 3001);
 
-app.get("/api/cubes", (req, res) => {
+app.post("/api/cubes", jsonParser, (req, res) => {
+  console.log('REQUEST BODY', req.body);
   res.send({"success": "true", "hello": "world"});
 });
 
