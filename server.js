@@ -26,6 +26,7 @@ app.post("/api/cubes", jsonParser, (req, res) => {
           quantity: 1
         }
       ],
+      billing_address_collection: "required",
       success_url:
         "https://example.com/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://example.com/cancel"
