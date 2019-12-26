@@ -24,21 +24,34 @@ class App extends React.Component {
   };
 
   handleClick = async () => {
-    console.log("BUY A PRINT!");
-    const data = this.state;
-    console.log('DATA', data);
-    const response = await fetch('/api/cubes', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-    console.log('RESPONSE', response);
-  };
+                  console.log("BUY A PRINT!");
+                  const data = this.state;
+                  console.log("DATA", data);
+                  const response = await fetch("/api/cubes", {
+                    method: "POST",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                  });
+                  const body = await response.json();
+                  console.log("BODY", body);
+                  const stripe = window.Stripe(
+                    "pk_test_zg77iIfJq3dvHcUJVyoy7Hm8"
+                  );
+                  const { error } = await stripe.redirectToCheckout({
+                    // Make the id field from the Checkout Session creation API response
+                    // available to this file, so you can provide it as parameter here
+                    // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                    sessionId: body.id,
+                  });
+                  // If `redirectToCheckout` fails due to a browser or network
+                  // error, display the localized error message to your customer
+                  // using `error.message`.
+                };;
 
   _getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
