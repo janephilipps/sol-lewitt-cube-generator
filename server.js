@@ -21,7 +21,7 @@ app.post("/api/cubes", jsonParser, (req, res) => {
           name: "Sol Lewitt Cube Print",
           description: '8" x 10" archival quality print',
           images: ["//localhost:3000/cube.png"],
-          amount: 75,
+          amount: 7500,
           currency: "usd",
           quantity: 1
         }
@@ -30,11 +30,15 @@ app.post("/api/cubes", jsonParser, (req, res) => {
         "https://example.com/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://example.com/cancel"
     });
+    console.log('SESSION', session);
+    return session;
   })();
+  // });
   // console.log('STRIPE RESPONSE', response);
   response.then((data) => {
     console.log('DATA', data);
-    res.send(data);
+    const { id } = data;
+    res.send({ id });
   }).catch(e => {
     console.log(e);
   })
